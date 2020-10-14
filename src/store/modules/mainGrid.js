@@ -13,22 +13,20 @@ const actions = {
         dispatch("openCell", { row: row + 1, col: col });
         dispatch("openCell", { row: row - 1, col: col });
     },
-    openCell({ state, commit }, { row, col }) {
+    openCell({ state, commit, dispatch }, { row, col }) {
         let pattern = state.pattern
-        // if (!pattern[row] || !pattern[row][col]) return //1
+        if (!pattern[row] || !pattern[row][col]) return //1
         let cell = []
         cell.data = pattern[row][col];
         cell.show = false
-        // if (cell.data === 0) { //2
-        //     if (cell.show) return
-        //     dispatch("floodFill", {
-        //         cell: cell,
-        //         row: row,
-        //         col: col
-        //     })
-        // }
-        // state.cell = cell
-
+        if (cell.data.data === 0) { //2
+            if (cell.data.show) return
+            dispatch("floodFill", {
+                cell: cell,
+                row: row,
+                col: col
+            })
+        }
         commit("setCellShow", cell)
     },
     async setPattern({ state, commit, dispatch }) {
